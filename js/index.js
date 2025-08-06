@@ -15,6 +15,7 @@ function appStart() {
     mainEl.appendChild(div);
   };
 
+  // 게임 종료
   const gameEnd = () => {
     window.removeEventListener("keydown", handleKeydown);
     displayGameEnd();
@@ -77,6 +78,7 @@ function appStart() {
   const handleKeydown = (e) => {
     const key = e.key.toUpperCase();
     const keyCode = e.keyCode;
+    // console.log(key, keyCode);
     const thisBlock = document.querySelector(
       `.board-block[data-index='${attempts}${index}']`
     );
@@ -94,6 +96,30 @@ function appStart() {
     }
   };
 
+  // 키값 클릭했을 때의 동작
+  const clickKeyboard = () => {
+    const keyBlock = document.querySelectorAll('.keyboard-block');
+
+    keyBlock.forEach((block) => {
+      block.addEventListener('click', () => {
+        const key = block.dataset.key;
+        const thisBlock = document.querySelector(`.board-block[data-index='${attempts}${index}']`);
+
+        if(key == "BACKSPACE") {
+          handleBackspaceKey();
+        } else if(index === 5) {
+          if(key === "ENTER") {
+            handleEnterKey();
+          }
+          return;
+        } else {
+          thisBlock.innerText = key;
+          index++;
+        }
+      });
+    });
+  }
+
   // 타이머 기능
   const startTimer = () => {
     function setTime() {
@@ -109,6 +135,7 @@ function appStart() {
   };
 
   startTimer();
+  clickKeyboard();
   window.addEventListener("keydown", handleKeydown); //handleKeydown > 암묵적으로 이벤트 전달(e)
 }
 
