@@ -1,4 +1,3 @@
-const correct = "WRATH";
 let attempts = 0;
 let index = 0;
 const startTime = new Date();
@@ -38,20 +37,26 @@ function appStart() {
   };
 
   // 엔터키 눌렀을 때의 동작
-  const handleEnterKey = () => {
-    let correctCount = 0;
+  const handleEnterKey = async () => {
+    let answerCount = 0;
+
+    // 비동기로 서버에서 정답 가져옴
+    const response = await fetch("/answer");
+    const answerObj = await response.json();
+    const answer = answerObj.answer;
+
     // 정답 확인
     for (let i = 0; i < 5; i++) {
       const block = document.querySelector(
         `.board-block[data-index='${attempts}${i}']`
       );
       const userText = block.innerText;
-      const correctText = correct[i];
+      const answerText = answer[i];
 
-      if (userText === correctText) {
-        correctCount++;
+      if (userText === answerText) {
+        answerCount++;
         block.style.backgroundColor = "#6AAA64";
-      } else if (correct.includes(userText)) {
+      } else if (answer.includes(userText)) {
         block.style.backgroundColor = "#C9B458";
       } else {
         block.style.backgroundColor = "#787C7E";
@@ -60,7 +65,7 @@ function appStart() {
     }
 
     // 게임 종료
-    if (correctCount === 5) {
+    if (answerCount === 5) {
       gameEnd();
     } else {
       // 게임 종료 아니면, 다음 줄 넘김
