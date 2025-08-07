@@ -11,7 +11,7 @@ function appStart() {
     div.innerText = "게임이 종료되었습니다.";
     div.classList.add("game-end-message");
     // document.body.appendChild(div);
-    const mainEl = document.getElementById('main');
+    const mainEl = document.getElementById("main");
     mainEl.appendChild(div);
   };
 
@@ -74,6 +74,23 @@ function appStart() {
     }
   };
 
+  // 중복 알파벳 방지
+  const dupliAlpa = (key) => {
+    let isWrite = true;
+
+    for (let i = 0; i < index; i++) {
+      const lastBlock = document.querySelector(
+        `.board-block[data-index='${attempts}${i}']`
+      );
+
+      if (key === lastBlock.innerText) {
+        isWrite = false;
+        break;
+      }
+    }
+    return isWrite;
+  };
+
   // 키 다운했을 때의 동작
   const handleKeydown = (e) => {
     const key = e.key.toUpperCase();
@@ -91,34 +108,50 @@ function appStart() {
       }
       return;
     } else if (65 <= keyCode && keyCode <= 90) {
-      thisBlock.innerText = key;
-      index++;
+      if (index !== 0) {
+        if (dupliAlpa(key)) {
+          thisBlock.innerText = key;
+          index++;
+        }
+      } else {
+        thisBlock.innerText = key;
+        index++;
+      }
     }
   };
 
   // 키값 클릭했을 때의 동작
   const clickKeyboard = () => {
-    const keyBlock = document.querySelectorAll('.keyboard-block');
+    const keyBlock = document.querySelectorAll(".keyboard-block");
 
     keyBlock.forEach((block) => {
-      block.addEventListener('click', () => {
+      block.addEventListener("click", () => {
         const key = block.dataset.key;
-        const thisBlock = document.querySelector(`.board-block[data-index='${attempts}${index}']`);
+        const thisBlock = document.querySelector(
+          `.board-block[data-index='${attempts}${index}']`
+        );
 
-        if(key == "BACKSPACE") {
+        if (key == "BACKSPACE") {
           handleBackspaceKey();
-        } else if(index === 5) {
-          if(key === "ENTER") {
+        } else if (index === 5) {
+          if (key === "ENTER") {
             handleEnterKey();
           }
           return;
         } else {
-          thisBlock.innerText = key;
-          index++;
+          if (index !== 0) {
+            if (dupliAlpa(key)) {
+              thisBlock.innerText = key;
+              index++;
+            }
+          } else {
+            thisBlock.innerText = key;
+            index++;
+          }
         }
       });
     });
-  }
+  };
 
   // 타이머 기능
   const startTimer = () => {
