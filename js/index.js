@@ -1,4 +1,4 @@
-const correct = "TABLE";
+const correct = "WRATH";
 let attempts = 0;
 let index = 0;
 const startTime = new Date();
