@@ -2,6 +2,7 @@ let attempts = 0;
 let index = 0;
 const startTime = new Date();
 let timer;
+const answer = "MOUSE".toUpperCase();
 
 function appStart() {
   // 게임 종료
@@ -38,13 +39,13 @@ function appStart() {
   };
 
   // 엔터키 눌렀을 때의 동작
-  const handleEnterKey = async () => {
+  const handleEnterKey = () => {
     let answerCount = 0;
 
     // 비동기로 서버에서 정답 가져옴
-    const response = await fetch("/answer");
-    const answerObj = await response.json();
-    const answer = answerObj.answer;
+    // const response = await fetch("/answer");
+    // const answerObj = await response.json();
+    // const answer = answerObj.answer;
 
     // 정답 확인
     for (let i = 0; i < 5; i++) {
