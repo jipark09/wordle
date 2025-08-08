@@ -2,7 +2,50 @@ let attempts = 0;
 let index = 0;
 const startTime = new Date();
 let timer;
-const answerList = ["MOUSE", "TRAIN", "JEINY", "QUERY", "EARTH", "SOUTH", "NORTH", "WEIGH", "AUGHT", "NAVER", "ZEBRA", "INDEA", "YOUTH", "PATCH", "TIGER", "MINSU", "RANDO", "SANDO", "DONGO", "UNDER", "VESTI"];
+const answerList = [
+  "UNDER",
+  "MOUSE",
+  "TRAIN",
+  "JEINY",
+  "QUERY",
+  "EARTH",
+  "SOUTH",
+  "NORTH",
+  "WEIGH",
+  "AUGHT",
+  "NAVER",
+  "ZEBRA",
+  "INDEA",
+  "YOUTH",
+  "PATCH",
+  "TIGER",
+  "MINSU",
+  "RANDO",
+  "SANDO",
+  "DONGO",
+  "UNDER",
+  "VESTI",
+  "LIGER",
+  "TRAND",
+  "SOILD",
+  "TABLE",
+  "FIGHT",
+  "NIGHT",
+  "HOUSE",
+  "HORSE",
+  "PHONE",
+  "WRITE",
+  "PRINT",
+  "FIRST",
+  "THIRD",
+  "WORLD",
+  "HUMAN",
+  "CONDO",
+  "CANDY",
+  "QUICK",
+  "KNIFE",
+  "GREAT",
+];
 const answer = answerList[Math.floor(Math.random() * answerList.length)];
 
 function appStart() {
@@ -15,7 +58,7 @@ function appStart() {
       div.innerText = "GAME CLEAR🥳";
       div.classList.add("clear-answer");
     } else {
-      div.innerText = "GAME OVER😵";
+      div.innerText = "GAME OVER😵\n✅ " + answer + " ✅";
       div.classList.add("over-answer");
     }
     div.classList.add("game-end-message");

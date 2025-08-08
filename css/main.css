@@ -3,6 +3,7 @@
   --box-color: #d3d6da;
   --sub-color: #84b9c0;
   --over-color: #e44e4a;
+  --clear-color: #6aaa64;
 }
 
 /* 흔들리는 애니메이션 정의 */
@@ -187,10 +188,12 @@ footer {
   font-size: 16px;
   font-weight: bold;
   z-index: 9999;
+  text-align: center;
 }
 
 .clear-answer {
-  background-color: var(--main-color);
+  background-color: var(--clear-color);
+  color: white;
 }
 
 .over-answer {
