@@ -4,29 +4,30 @@ const startTime = new Date();
 let timer;
 
 function appStart() {
-  // 화면 단 게임 종료
-  const displayGameEnd = () => {
+  // 게임 종료
+  const gameEnd = (isAnswer) => {
+    window.removeEventListener("keydown", handleKeydown);
     const div = document.createElement("div");
-    div.innerText = "게임이 종료되었습니다.";
+
+    if (isAnswer) {
+      div.innerText = "GAME CLEAR🥳";
+      div.classList.add("clear-answer");
+    } else {
+      div.innerText = "GAME OVER😵";
+      div.classList.add("over-answer");
+    }
     div.classList.add("game-end-message");
-    // document.body.appendChild(div);
     const mainEl = document.getElementById("main");
     mainEl.appendChild(div);
-  };
 
-  // 게임 종료
-  const gameEnd = () => {
-    window.removeEventListener("keydown", handleKeydown);
-    displayGameEnd();
     clearInterval(timer);
+    div.classList.add("shake-finish");
   };
 
   // 백스페이스 눌렀을 떄의 동작
   const handleBackspaceKey = () => {
     if (index > 0) {
-      const preBlock = document.querySelector(
-        `.board-block[data-index='${attempts}${index - 1}']`
-      );
+      const preBlock = document.querySelector(`.board-block[data-index='${attempts}${index - 1}']`);
 
       preBlock.innerText = "";
     }
@@ -47,9 +48,7 @@ function appStart() {
 
     // 정답 확인
     for (let i = 0; i < 5; i++) {
-      const block = document.querySelector(
-        `.board-block[data-index='${attempts}${i}']`
-      );
+      const block = document.querySelector(`.board-block[data-index='${attempts}${i}']`);
       const userText = block.innerText;
       const answerText = answer[i];
 
@@ -65,14 +64,16 @@ function appStart() {
     }
 
     // 게임 종료
+    let isAnswer = false;
+
     if (answerCount === 5) {
-      gameEnd();
+      isAnswer = true;
+      gameEnd(isAnswer);
     } else {
-      // 게임 종료 아니면, 다음 줄 넘김
       attempts++;
-      // 다음 줄이 없으면 게임 종료
+
       if (attempts === 6) {
-        gameEnd();
+        gameEnd(isAnswer);
         return;
       }
       index = 0;
@@ -84,9 +85,7 @@ function appStart() {
     let isWrite = true;
 
     for (let i = 0; i < index; i++) {
-      const lastBlock = document.querySelector(
-        `.board-block[data-index='${attempts}${i}']`
-      );
+      const lastBlock = document.querySelector(`.board-block[data-index='${attempts}${i}']`);
 
       if (key === lastBlock.innerText) {
         isWrite = false;
@@ -101,9 +100,7 @@ function appStart() {
     const key = e.key.toUpperCase();
     const keyCode = e.keyCode;
     // console.log(key, keyCode);
-    const thisBlock = document.querySelector(
-      `.board-block[data-index='${attempts}${index}']`
-    );
+    const thisBlock = document.querySelector(`.board-block[data-index='${attempts}${index}']`);
 
     if (e.key === "Backspace") {
       handleBackspaceKey();
@@ -113,15 +110,16 @@ function appStart() {
       }
       return;
     } else if (65 <= keyCode && keyCode <= 90) {
-      if (index !== 0) {
-        if (dupliAlpa(key)) {
-          thisBlock.innerText = key;
-          index++;
+      if (index > 0) {
+        if (!dupliAlpa(key)) {
+          return;
         }
-      } else {
-        thisBlock.innerText = key;
-        index++;
       }
+      thisBlock.innerText = key;
+      thisBlock.classList.remove("shake");
+      void thisBlock.offsetWidth; // 랜더링 갱신
+      thisBlock.classList.add("shake");
+      index++;
     }
   };
 
@@ -132,9 +130,7 @@ function appStart() {
     keyBlock.forEach((block) => {
       block.addEventListener("click", () => {
         const key = block.dataset.key;
-        const thisBlock = document.querySelector(
-          `.board-block[data-index='${attempts}${index}']`
-        );
+        const thisBlock = document.querySelector(`.board-block[data-index='${attempts}${index}']`);
 
         if (key == "BACKSPACE") {
           handleBackspaceKey();
@@ -144,15 +140,16 @@ function appStart() {
           }
           return;
         } else {
-          if (index !== 0) {
-            if (dupliAlpa(key)) {
-              thisBlock.innerText = key;
-              index++;
+          if (index > 0) {
+            if (!dupliAlpa(key)) {
+              return;
             }
-          } else {
-            thisBlock.innerText = key;
-            index++;
           }
+          thisBlock.innerText = key;
+          thisBlock.classList.remove("shake");
+          void thisBlock.offsetWidth; // 랜더링 갱신
+          thisBlock.classList.add("shake");
+          index++;
         }
       });
     });

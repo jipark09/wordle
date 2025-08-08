@@ -2,6 +2,58 @@
   --main-color: #fbe99f;
   --box-color: #d3d6da;
   --sub-color: #84b9c0;
+  --over-color: #e44e4a;
+}
+
+/* 흔들리는 애니메이션 정의 */
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes shake-finish {
+  0% {
+    transform: translate(-50%, -50%) translateX(0);
+  }
+  20% {
+    transform: translate(-50%, -50%) translateX(-5px);
+  }
+  40% {
+    transform: translate(-50%, -50%) translateX(5px);
+  }
+  60% {
+    transform: translate(-50%, -50%) translateX(-5px);
+  }
+  80% {
+    transform: translate(-50%, -50%) translateX(5px);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateX(0);
+  }
+}
+
+.shake {
+  animation: shake 0.4s;
+}
+
+.shake-finish {
+  animation: shake-finish 0.4s;
 }
 
 /* header */
@@ -135,4 +187,13 @@ footer {
   font-size: 16px;
   font-weight: bold;
   z-index: 9999;
+}
+
+.clear-answer {
+  background-color: var(--main-color);
+}
+
+.over-answer {
+  background-color: var(--over-color);
+  color: white;
 }
