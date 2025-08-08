@@ -2,7 +2,8 @@ let attempts = 0;
 let index = 0;
 const startTime = new Date();
 let timer;
-const answer = "MOUSE".toUpperCase();
+const answerList = ["MOUSE", "TRAIN", "JEINY", "QUERY", "EARTH", "SOUTH", "NORTH", "WEIGH", "AUGHT", "NAVER", "ZEBRA", "INDEA", "YOUTH", "PATCH", "TIGER", "MINSU", "RANDO", "SANDO", "DONGO", "UNDER", "VESTI"];
+const answer = answerList[Math.floor(Math.random() * answerList.length)];
 
 function appStart() {
   // 게임 종료
