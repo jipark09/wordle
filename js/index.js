@@ -198,7 +198,7 @@ function appStart() {
             handleEnterKey();
           }
           return;
-        } else {
+        } else if (key !== "ENTER") {
           if (index > 0) {
             if (!dupliAlpa(key)) {
               return;
